@@ -41,6 +41,15 @@ model Session {
   @@map("sessions")
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -51,13 +60,68 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
+  createdCourses        Course[]
+  ownedCourses          CourseOnUser[]
+  lessons               LessonOnUser[]
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+model Course {
+  id            String    @id @default(cuid())
+  name          String
+  presentation  String
+  image         String
+  createdAt     DateTime  @default(now())
+  creatorId     String
+  creator       User      @relation(fields: [creatorId], references: [id])
+  lessons       Lesson[]
+  users         CourseOnUser[]
+}
 
-  @@unique([identifier, token])
-  @@map("verificationtokens")
+model Lesson {
+  id            String    @id @default(cuid())
+  name          String
+  rank          String
+  content       String
+  state         LessonState @default(HIDDEN)
+  createdAt     DateTime  @default(now())
+  courseId      String
+  course        Course    @relation(fields: [courseId], references: [id])
+  users         LessonOnUser[]
+}
+
+enum LessonState {
+  HIDDEN
+  PUBLISHED
+  PUBLIC
+}
+
+model LessonOnUser {
+  id            String    @id @default(cuid())
+  progress      Progress @default(NOT_STARTED)
+  createdAt     DateTime @default(now())
+  userId        String
+  user          User @relation(fields: [userId], references: [id])
+  lessonId      String
+  lesson        Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
+}
+
+enum Progress {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model CourseOnUser {
+  id            String    @id @default(cuid())
+  createdAt     DateTime @default(now())
+  canceledAt    DateTime?
+
+  userId        String
+  user          User @relation(fields: [userId], references: [id])
+  courseId      String
+  course        Course @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId])
 }
