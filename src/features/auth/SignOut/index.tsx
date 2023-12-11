@@ -23,6 +23,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { signOut } from 'next-auth/react'
+import Link from 'next/link'
 
 type SignOutProps = {
   user:
@@ -55,7 +56,9 @@ export const SignOut = ({ user }: SignOutProps) => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setOpenDropdown(false)}>
+              <Link href="/account">Profile</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>Billing</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
           </DropdownMenuGroup>
