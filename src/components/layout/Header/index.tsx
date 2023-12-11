@@ -2,6 +2,7 @@ import { SiteConfig } from '@/lib/site-config'
 import Link from 'next/link'
 import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { Typography } from '@/components/ui/typography'
+import Auth from '@/features/auth'
 
 export function Header() {
   return (
@@ -15,6 +16,7 @@ export function Header() {
 
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
+            <Auth />
             <ThemeToggle />
           </nav>
         </div>
