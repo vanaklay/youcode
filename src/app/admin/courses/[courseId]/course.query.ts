@@ -1,6 +1,14 @@
 import prisma from '@/lib/prisma'
 
-export const getCourse = async (courseId: string, userId: string) => {
+export const getCourse = async ({
+  courseId,
+  userId,
+  userPage,
+}: {
+  courseId: string
+  userId: string
+  userPage: number
+}) => {
   const course = await prisma.course.findUnique({
     where: {
       id: courseId,
@@ -12,6 +20,8 @@ export const getCourse = async (courseId: string, userId: string) => {
       name: true,
       presentation: true,
       users: {
+        take: 5,
+        skip: Math.max(0, userPage * 5),
         select: {
           canceledAt: true,
           id: true,
