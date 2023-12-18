@@ -15,7 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { getRequiredAuthSession } from '@/lib/auth'
-import { getCourse } from './course.query'
+import { getAdminCourse } from './course.query'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Typography } from '@/components/ui/typography'
 import Link from 'next/link'
@@ -29,7 +29,7 @@ type CourseProps = {
 const Course = async ({ params, searchParams }: CourseProps) => {
   const session = await getRequiredAuthSession()
   const page = Number(searchParams.page ?? 1)
-  const course = await getCourse({
+  const course = await getAdminCourse({
     courseId: params.courseId,
     userId: session.user.id,
     userPage: page,

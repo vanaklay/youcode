@@ -10,7 +10,7 @@ import { getOpenCourses } from '../courses/openCourses.query'
 import { getAuthSession } from '@/lib/auth'
 import NotAuthenticatedError from '@/features/auth/NotAuthenticatedError/Index'
 
-const OpenCoursesPage = async () => {
+const MyCoursesPage = async () => {
   const session = await getAuthSession()
 
   if (!session?.user.id) {
@@ -33,4 +33,4 @@ const OpenCoursesPage = async () => {
   )
 }
 
-export default OpenCoursesPage
+export default MyCoursesPage
