@@ -1,17 +1,10 @@
 import React from 'react'
 import { Card, CardHeader, CardTitle } from '../ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { OpenCours } from '@/app/courses/openCourses.query'
 
 type CourseCardProps = {
-  course: {
-    name: string
-    image: string
-    id: string
-    creator: {
-      image: string | null
-      name: string | null
-    }
-  }
+  course: OpenCours
 }
 const CourseCard = ({ course }: CourseCardProps) => {
   return (
