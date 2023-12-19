@@ -1,7 +1,6 @@
 import React from 'react'
 import { CourseLessonItem } from '../../../course.query'
 import { Typography } from '@/components/ui/typography'
-import { Badge } from '@/components/ui/badge'
 import { CheckCircle, Circle, CircleDashed } from 'lucide-react'
 
 type LessonItemProps = {

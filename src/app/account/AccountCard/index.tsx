@@ -31,7 +31,7 @@ export default function AccountCard({ user }: { user: User }) {
         <CardContent className="flex flex-col gap-2">
           <Link
             className={buttonVariants({ variant: 'outline', size: 'lg' })}
-            href="/account/settings"
+            href="/account/edit"
           >
             Settings
           </Link>
