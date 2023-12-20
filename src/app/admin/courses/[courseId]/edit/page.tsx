@@ -13,7 +13,7 @@ import { getRequiredAuthSession } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 import { z } from 'zod'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { Textarea } from '@/components/ui/textarea'
@@ -41,6 +41,10 @@ const AdminEditCourse = async ({
     userId: session.user.id,
     userPage: page,
   })
+
+  if (!course) {
+    notFound()
+  }
 
   const handleAction = async (formData: FormData) => {
     'use server'
