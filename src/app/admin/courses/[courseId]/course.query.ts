@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 
 export const getAdminCourse = async ({
   courseId,
@@ -53,3 +54,7 @@ export const getAdminCourse = async ({
     users,
   }
 }
+
+export type AdminCourse = NonNullable<
+  Prisma.PromiseReturnType<typeof getAdminCourse>
+>
