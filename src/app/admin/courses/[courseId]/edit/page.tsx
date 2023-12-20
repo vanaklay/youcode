@@ -19,6 +19,7 @@ import { revalidatePath } from 'next/cache'
 import { Textarea } from '@/components/ui/textarea'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import SubmitButton from '@/components/form/SubmitButton'
 
 const FormSchema = z.object({
   name: z.string().min(3).max(40),
@@ -107,7 +108,7 @@ const AdminEditCourse = async ({
                   Error: {searchParams.error as string}
                 </Typography>
               )}
-              <Button>Submit</Button>
+              <SubmitButton>Submit</SubmitButton>
             </form>
           </CardContent>
         </Card>
