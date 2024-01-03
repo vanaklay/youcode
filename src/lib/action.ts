@@ -8,7 +8,7 @@ export const authenticatedAction = createSafeActionClient({
     const session = await getAuthSession()
     const user = session?.user
     const userId = user?.id
-    if (!session) {
+    if (!userId) {
       throw new Error('You must be logged in to perform this action')
     }
 

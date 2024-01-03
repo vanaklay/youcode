@@ -11,7 +11,7 @@ import {
 import { CourseFormSchema } from '../course.schema'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { courseActionEdit } from '../course.action'
+import { courseActionCreate, courseActionEdit } from '../course.action'
 import SubmitButton from '@/components/form/SubmitButton'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -34,26 +34,24 @@ export const CourseForm = ({ defaultValues }: CourseFormProps) => {
     <Form
       form={form}
       onSubmit={async (values) => {
-        if (defaultValues?.id) {
-          const { data, serverError } = await courseActionEdit({
-            courseId: defaultValues.id,
-            data: values,
-          })
+        const { data, serverError } = defaultValues?.id
+          ? await courseActionEdit({
+              courseId: defaultValues.id,
+              data: values,
+            })
+          : await courseActionCreate(values)
 
-          if (data) {
-            toast.success(data)
-            router.push(`/admin/courses/${defaultValues.id}`)
-            router.refresh()
-            return
-          }
-
-          toast.error('Some error occurred', {
-            description: serverError,
-          })
+        if (data) {
+          toast.success(data.message)
+          router.push(`/admin/courses/${data.course.id}`)
+          router.refresh()
           return
-        } else {
-          // create new course
         }
+
+        toast.error('Some error occurred', {
+          description: serverError,
+        })
+        return
       }}
     >
       <FormField
