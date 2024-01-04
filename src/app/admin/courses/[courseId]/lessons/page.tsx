@@ -6,17 +6,10 @@ import {
   LayoutTitle,
 } from '@/components/layout/Layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { getRequiredAuthSession } from '@/lib/auth'
 import { getLessons } from './lessons.query'
 import LessonItem from './LessonItem'
+import BackButton from '@/components/BackButton'
 
 type LessonsProps = {
   params: { courseId: string }
@@ -28,7 +21,8 @@ const Lessons = async ({ params }: LessonsProps) => {
   return (
     <Layout>
       <LayoutHeader>
-        <LayoutTitle>Lessons . {lessons?.name}</LayoutTitle>
+        <LayoutTitle>Lessons - {lessons?.name}</LayoutTitle>
+        <BackButton href={`/admin/courses/${params.courseId}`} />
       </LayoutHeader>
       <LayoutContent className="flex flex-col gap-4 md:flex-row">
         <Card className="flex-[2]">
@@ -37,7 +31,11 @@ const Lessons = async ({ params }: LessonsProps) => {
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
             {lessons?.lessons.map((lesson) => (
-              <LessonItem key={lesson.id} lesson={lesson} />
+              <LessonItem
+                key={lesson.id}
+                lesson={lesson}
+                courseId={params.courseId}
+              />
             ))}
           </CardContent>
         </Card>
