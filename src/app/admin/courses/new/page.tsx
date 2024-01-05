@@ -6,15 +6,11 @@ import {
   LayoutHeader,
   LayoutTitle,
 } from '@/components/layout/Layout'
-import { getRequiredAuthSession } from '@/lib/auth'
-import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { CourseForm } from '../[courseId]/edit/CourseForm'
 
 const AdminCreateCourse = async () => {
-  const session = await getRequiredAuthSession()
-
   return (
     <Layout>
       <LayoutHeader>

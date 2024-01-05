@@ -28,3 +28,33 @@ export const lessonActionEdit = authenticatedAction(
     }
   }
 )
+
+const LessonActionCreateProps = z.object({
+  courseId: z.string(),
+  data: LessonFormSchema,
+})
+
+export const lessonActionCreate = authenticatedAction(
+  LessonActionCreateProps,
+  async (props, { userId }) => {
+    // Authorize the user
+    await prisma.course.findFirstOrThrow({
+      where: {
+        creatorId: userId,
+        id: props.courseId,
+      },
+    })
+
+    const lesson = await prisma.lesson.create({
+      data: {
+        ...props.data,
+        courseId: props.courseId,
+      },
+    })
+
+    return {
+      message: 'Lesson created successfully',
+      lesson,
+    }
+  }
+)

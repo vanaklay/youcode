@@ -13,7 +13,7 @@ import SubmitButton from '@/components/form/SubmitButton'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { LESSON_STATE, LessonFormSchema } from '../lesson.schema'
-import { lessonActionEdit } from '../lesson.action'
+import { lessonActionCreate, lessonActionEdit } from '../lesson.action'
 import {
   Select,
   SelectContent,
@@ -21,14 +21,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
 
 export type LessonFormProps = {
-  defaultValues: LessonFormSchema & {
+  defaultValues?: LessonFormSchema & {
     id: string
   }
+  courseId: string
 }
 
-export const LessonForm = ({ defaultValues }: LessonFormProps) => {
+export const LessonForm = ({ defaultValues, courseId }: LessonFormProps) => {
   const form = useZodForm({
     schema: LessonFormSchema,
     defaultValues,
@@ -40,10 +42,12 @@ export const LessonForm = ({ defaultValues }: LessonFormProps) => {
     <Form
       form={form}
       onSubmit={async (values) => {
-        const { data, serverError } = await lessonActionEdit({
-          lessonId: defaultValues.id,
-          data: values,
-        })
+        const { data, serverError } = defaultValues?.id
+          ? await lessonActionEdit({
+              lessonId: defaultValues.id,
+              data: values,
+            })
+          : await lessonActionCreate({ data: values, courseId })
 
         if (data) {
           toast.success(data.message)
@@ -74,6 +78,20 @@ export const LessonForm = ({ defaultValues }: LessonFormProps) => {
 
       <FormField
         control={form.control}
+        name="rank"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Rank</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
         name="state"
         render={({ field }) => (
           <FormItem>
@@ -92,6 +110,20 @@ export const LessonForm = ({ defaultValues }: LessonFormProps) => {
                 ))}
               </SelectContent>
             </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="content"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Content</FormLabel>
+            <FormControl>
+              <Textarea {...field} />
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}

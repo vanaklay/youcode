@@ -37,7 +37,7 @@ const EditLesson = async ({ params }: EditLessonProps) => {
         <Card className="flex-[2]">
           <CardHeader>Details</CardHeader>
           <CardContent className="mt-6">
-            <LessonForm defaultValues={lesson} />
+            <LessonForm defaultValues={lesson} courseId={params.courseId} />
           </CardContent>
         </Card>
       </LayoutContent>

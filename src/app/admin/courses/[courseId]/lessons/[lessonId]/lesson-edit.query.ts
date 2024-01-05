@@ -21,6 +21,8 @@ export const getAdminLesson = async ({
       id: true,
       name: true,
       state: true,
+      rank: true,
+      content: true,
     },
   })
 }
