@@ -9,13 +9,13 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getRequiredAuthSession } from '@/lib/auth'
 import { getCourseLessons } from './lessons.query'
-import LessonItem from './LessonItem'
 import BackButton from '@/components/BackButton'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 import SubmitButton from '@/components/form/SubmitButton'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
+import DraggableLessons from './DraggableLessons'
 
 type LessonsProps = {
   params: { courseId: string }
@@ -44,13 +44,11 @@ const Lessons = async ({ params }: LessonsProps) => {
             <CardTitle>Lessons</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            {course?.lessons.map((lesson) => (
-              <LessonItem
-                key={lesson.id}
-                lesson={lesson}
-                courseId={params.courseId}
-              />
-            ))}
+            <DraggableLessons
+              courseId={params.courseId}
+              lessons={course?.lessons}
+            />
+
             <form>
               <SubmitButton
                 size="sm"
